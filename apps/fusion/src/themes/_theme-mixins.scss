@@ -28,12 +28,9 @@
   $colorGreen: #5fa800;
   $colorRed: #ff0000;
   $footerColor: #373434;
-  $footerTextColor: #DEDFE0;
-
+  $footerTextColor: #dedfe0;
 
   outline-color: mat-color($accent, lighter);
-
-
 
   .icon-svg {
     fill: $iconColor;
@@ -41,7 +38,7 @@
 
   .ws-mat-primary-lite-background {
     // background-color: $colorPrimaryLight;
-    background-color: transparent;
+    background-color: white;
   }
 
   .ws-mat-primary-lite-background-op30 {
@@ -62,10 +59,9 @@
   }
 
   @if $is-dark {
-
     .mat-progress-spinner circle,
     .mat-spinner circle {
-      stroke: #FFFFFF;
+      stroke: #ffffff;
     }
 
     mat-toolbar {
@@ -90,7 +86,7 @@
     // .mat-stroked-button{}
     .mat-primary {
       color: $colorText !important;
-      background-color: #333333 !important;
+      background-color: white !important;
       // 926b6b $colorText
     }
 
@@ -110,13 +106,11 @@
     // .mat-tab-group
     .mat-tab-nav-bar,
     .mat-form-field-outline-thick .mat-ink-bar {
-      background-color: $colorAccentLight !important
+      background-color: $colorAccentLight !important;
     }
 
-
-
     .mat-ink-bar {
-      background-color: $colorAccentLight !important
+      background-color: $colorAccentLight !important;
     }
 
     .mat-option.mat-selected:not(.mat-option-multiple) {
@@ -126,7 +120,7 @@
 
     .mat-mini-fab {
       background: #777777 0% 0% no-repeat padding-box !important;
-      border: 2px solid #CCCCCC;
+      border: 2px solid #cccccc;
       box-shadow: 0px 10px 30px #99999933 !important;
     }
 
@@ -172,14 +166,11 @@
     .mat-form-field-outline-thick .mat-ink-bar {
       background-color: $colorPrimaryDark !important;
     }
-  }
-
-  @else {
+  } @else {
     .mat-radio-button {
       background-color: transparent !important;
 
       .mat-radio-container {
-
         .mat-radio-inner-circle {
           background-color: $colorPrimaryDark !important;
         }
@@ -196,11 +187,11 @@
     }
 
     .mat-primary {
-      color: $colorText !important;
+      color: white !important;
     }
 
     .mat-ink-bar {
-      background-color: $colorAccent !important
+      background-color: $colorAccent !important;
     }
 
     .mat-input-element {
@@ -230,7 +221,7 @@
     }
 
     .mat-option.mat-selected:not(.mat-option-multiple) {
-      background: $colorAccent !important
+      background: $colorAccent !important;
     }
 
     .ws-mat-primary-text {
@@ -253,9 +244,7 @@
     }
   }
 
-
   @if $is-dark {
-
     a[href^='/'][target='_self'],
     a[href^='http'],
     a[href^='mailto'],
@@ -265,10 +254,7 @@
       background-color: $colorPrimaryDark !important;
       // background-color: red !important;
     }
-  }
-
-  @else {
-
+  } @else {
     a[href^='/'][target='_self'],
     a[href^='http'],
     a[href^='mailto'],
@@ -404,9 +390,11 @@
     position: absolute;
     width: 90%;
     margin-top: 24%;
-    background: linear-gradient(to bottom,
-        rgba(mat-color($background, card), 0),
-        mat-color($background, card) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(mat-color($background, card), 0),
+      mat-color($background, card) 100%
+    );
   }
 
   .mat-button-toggle-checked {
