@@ -42,9 +42,10 @@ public class SmsServiceImpl implements SmsService {
 	 */
 
 	@Override
-	public String sendSMS(String mobileNo, String message) {
+	@SuppressWarnings({ "unchecked", "unused" })
+	public void sendSMS(String mobileNo, String message) {
 
-		mobileNo = "918198069959";
+		mobileNo = "91"+mobileNo;
 		Map<String, MessageAttributeValue> smsAttributes = new HashMap<String, MessageAttributeValue>();
 
 		// The sender ID shown on the device.
@@ -59,7 +60,7 @@ public class SmsServiceImpl implements SmsService {
 				.withPhoneNumber(mobileNo).withMessageAttributes(smsAttributes));
 
 		System.out.println(result.getMessageId());
-		return result.getMessageId();
+		
 	}
 
 }

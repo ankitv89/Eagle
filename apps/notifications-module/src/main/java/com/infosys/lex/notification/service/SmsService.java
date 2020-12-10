@@ -22,5 +22,5 @@ public interface SmsService {
 	 * @param message
 	 * @return
 	 */
-	public String sendSMS(String mobileNo,String message);
+	void sendSMS(String mobileNo,String message);
 }

@@ -42,10 +42,12 @@ import com.infosys.lex.notification.service.TenantEventConfigurationService;
 import com.infosys.lex.notification.service.TenantTemplateService;
 import com.infosys.lex.notification.service.UserInformationService;
 import com.infosys.lex.notification.service.UserNotificationsService;
+import com.infosys.lex.notification.service.SmsService;
 import com.infosys.lex.notification.util.LexConstants;
 import com.infosys.lex.notification.util.LexNotificationLogger;
 import com.infosys.lex.notification.util.NotificationTemplateUtil;
 import com.infosys.lex.notification.util.ProjectCommonUtil;
+
 
 @Service
 public class NotificationConsumerServiceImpl implements NotificationConsumerService {
@@ -73,6 +75,9 @@ public class NotificationConsumerServiceImpl implements NotificationConsumerServ
 
 	@Autowired
 	EmailNotificationProcessingService emailProcessingServ;
+
+	@Autowired
+	SmsService smsServ;
 
 	private LexNotificationLogger logger = new LexNotificationLogger(getClass().getName());
 
@@ -289,7 +294,8 @@ public class NotificationConsumerServiceImpl implements NotificationConsumerServ
 		responseMap.put("user_id", userId);
 		responseMap.put("template_text", smsTemplate.get("template_text"));
 		responseMap.put("template_subject", smsTemplate.get("template_subject"));
-
+		String messageText = NotificationTemplateUtil.replaceTags(notificationEvent.getRootOrg(), notificationEvent.getTagValues(),smsTemplate.get("template_text").toString(), usersInfoMap, notificationEvent.getRecipients(),recipientRole, targetDataMapping, domainName, null);
+		smsServ.sendSMS(usersInfoMap.get(userId).getMobile(),messageText);
 		return responseMap;
 	}
 

@@ -17,6 +17,8 @@ public class UserInfo {
 
 	private String name;
 
+	private String mobile;
+
 	private List<String> orgs;
 
 	private Map<String, Object> recieveConfig;
@@ -30,7 +32,7 @@ public class UserInfo {
 	}
 
 	public UserInfo(String rootOrg, String userId, String firstName, String lastName, String email, String name,
-			List<String> orgs, Map<String, Object> recieveConfig, List<String> preferedLanguages) {
+			List<String> orgs, Map<String, Object> recieveConfig, List<String> preferedLanguages,String mobile) {
 		this.rootOrg = rootOrg;
 		this.userId = userId;
 		this.firstName = firstName;
@@ -40,6 +42,7 @@ public class UserInfo {
 		this.orgs = orgs;
 		this.recieveConfig = recieveConfig;
 		this.preferedLanguages = preferedLanguages;
+		this.mobile = mobile;
 	}
 	
 
@@ -89,6 +92,14 @@ public class UserInfo {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getMobile(){
+		return mobile;
+	}
+
+	public void setMobile(String mobile){
+		this.mobile = mobile;
 	}
 
 	public List<String> getOrgs() {
@@ -150,6 +161,6 @@ public class UserInfo {
 	public String toString() {
 		return "UserInfo [rootOrg=" + rootOrg + ", userId=" + userId + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", email=" + email + ", name=" + name + ", orgs=" + orgs + ", recieveConfig="
-				+ recieveConfig.toString() + ", preferedLanguage=" + preferedLanguages + "]";
+				+ recieveConfig.toString() + ", preferedLanguage=" + preferedLanguages + ", mobile="+ mobile +"]";
 	}
 }

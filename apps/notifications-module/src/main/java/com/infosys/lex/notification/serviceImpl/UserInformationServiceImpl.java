@@ -6,11 +6,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 
+import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,14 +120,14 @@ public class UserInformationServiceImpl implements UserInformationService {
 		try {
 			List<Map<String, Object>> responseMaps = restTemplate.postForObject(url, requestBody, List.class);
 			for (Map<String, Object> responseMap : responseMaps) {
-
+				String mobile = getUserPhoneNumber(responseMap.get("wid").toString());
 				UserInfo userInfo = new UserInfo(rootOrg, (String) responseMap.get("wid"),
 						responseMap.get("first_name") != null ? responseMap.get("first_name").toString() : "",
 						responseMap.get("last_name") != null ? responseMap.get("last_name").toString() : "",
 						(String) responseMap.get("email"), ProjectCommonUtil.getDisplayName(responseMap),
-						Arrays.asList((String) responseMap.get("org")), new HashMap<>(), Arrays.asList("en"));
+						Arrays.asList((String) responseMap.get("org")), new HashMap<>(), Arrays.asList("en"),mobile);
 
-				usersInfoMap.put(responseMap.get("wid").toString(), userInfo);
+				usersInfoMap.put(responseMap.get("wid").toString(), userInfo);	
 			}
 		} catch (HttpStatusCodeException e) {
 			throw new ApplicationLogicException("user info service(pid) response status " + e.getStatusCode()
@@ -133,6 +138,29 @@ public class UserInformationServiceImpl implements UserInformationService {
 
 		if (usersInfoMap.size() != userIds.size())
 			logger.error("could not extract pid for all the user " + userIds.toString());
+	}
+
+	@SuppressWarnings("unchecked")
+	private String getUserPhoneNumber(String userId){
+		String url = "http://" + appServerProps.getPidServiceUrl() + "/public/v8/profileDetails/getUserRegistry";
+		Map<String, Object> requestBody = new HashMap<>();
+		requestBody.put("userId",userId);
+		String mobile="";
+		List<Map<String, Object>> responseMaps = restTemplate.postForObject(url, requestBody, List.class);
+		try {
+			for (Map<String, Object> responseMap : responseMaps) {
+				ObjectMapper mapper = new ObjectMapper();
+				String jsonString = mapper.writeValueAsString(responseMap.get("personalDetails"));
+				JSONObject jsonObject = new JSONObject(jsonString);
+				mobile = String.valueOf(jsonObject.getLong("mobile"));
+				
+			}
+			
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+		return mobile;
 	}
 
 	private void getUsersLangaugePreferences(String rootOrg, List<String> userIds, Map<String, UserInfo> usersInfoMap) {
